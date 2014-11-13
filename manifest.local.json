@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Signavio Foosball",
+  "description": "This extension is to coordinate signavio foosball games.",
+  "version": "0.0.0.2",
+
+  "permissions": [
+    "notifications",
+    "storage" 
+  ],
+
+  "browser_action": {
+    "default_icon": "logo.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["popup.js"]
+  },
+  
+  "externally_connectable": {
+   
+    "matches": ["http://127.0.0.1/*", "http://127.0.0.1/"]
+  }
+}
