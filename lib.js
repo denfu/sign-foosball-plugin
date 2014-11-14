@@ -1,30 +1,16 @@
-// Run our kitten generation script as soon as the document's DOM is ready.
-getUUID = function() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-               .toString(16)
-               .substring(1);
-  }
-  return function() {
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-           s4() + '-' + s4() + s4() + s4();
-  };
-}();
-
-
 document.addEventListener('DOMContentLoaded', function () {
 	
   	var url = "http://127.0.0.1:3000/";
+  	//var url = "http://sign-kicker.meteor.com/";
 	
-	chrome.storage.sync.get('chromeUserId', function(obj){
-		
-		if (!obj || !obj.id) {
-			var id = getUUID();
-			chrome.storage.sync.set({'chromeUserId': id});
-		}
-		
+	chrome.storage.local.get("registerGCM", function(result) {
+		// If already registered, bail out.
+		if (result["registerGCM"])
+		  return;
+
 		var el = document.getElementById('iframe');
-		el.src = url + "chrome/" + id;
+		el.src = url + "registerGCM/";;
+
 		
 	});
 	

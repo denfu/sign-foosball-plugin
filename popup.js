@@ -77,3 +77,46 @@ function createNotification(title, msg){
 chrome.browserAction.onClicked.addListener(function(tab) { 
   
 });
+
+
+/* GCM Stuff */
+function registerCallback(registrationId) {
+  if (chrome.runtime.lastError) {
+    // When the registration fails, handle the error and retry the
+    // registration later.
+    console.log("ERROR: registerCallback:")
+    console.log(chrome.runtime.lastError);
+    return;
+  }
+
+  // Send the registration ID to your application server.
+  sendRegistrationId(registrationId, function(succeed) {
+    // Once the registration ID is received by your server,
+    // set the flag such that register will not be invoked
+    // next time when the app starts up.
+    if (succeed)
+    	//console.log("never called");
+      chrome.storage.local.set({registered: true});
+  });
+}
+
+function sendRegistrationId(registrationId, callback) {
+	console.log("SUCCESS: sendRegistrationId: " + registrationId);
+    
+  // Send the registration ID to your application server
+  // in a secure way AND call callback
+}
+
+//chrome.runtime.onStartup.addListener(function() {
+chrome.runtime.onInstalled.addListener(function() {
+	console.log("start register");
+  chrome.storage.local.get("registered", function(result) {
+    // If already registered, bail out.
+    if (result["registered"])
+      return;
+
+    // Up to 100 senders are allowed.
+    var senderIds = ["945883142192"];
+    chrome.gcm.register(senderIds, registerCallback);
+  });
+});

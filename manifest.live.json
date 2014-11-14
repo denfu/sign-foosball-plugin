@@ -7,7 +7,8 @@
 
   "permissions": [
     "notifications",
-    "storage" 
+    "storage",
+    "gcm"
   ],
 
   "browser_action": {
@@ -15,7 +16,7 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["popup.js"]
+    "scripts": ["background.js"]
   },
   
   "externally_connectable": {
