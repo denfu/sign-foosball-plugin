@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 	
-  	var url = "http://127.0.0.1:3000/";
-  	//var url = "http://sign-kicker.meteor.com/";
+  	//var url = "http://127.0.0.1:3000/";
+  	var url = "http://sign-kicker.meteor.com/";
 	
 	chrome.storage.local.get("registerGCM", function(result) {
 		// If already registered, bail out.
