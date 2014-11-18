@@ -2,6 +2,10 @@ MSG_IDS = {
     REGISTER_GCM 		: "registerGCM",
     REGISTER_GCM_SUCCED	: "registerGCMSuccsess",
     GAME_START : "gameStart",
+    GAME_ABOUT_TO_START : "gameAboutToStart",
+    CHAT		: "chat",
+    NG       : "newgame",
+    BAGDE_UPDATE : "badgeUpdate",
     SENDER_IDS	 : ["945883142192"] // google aplication project id
 };
 
@@ -13,7 +17,7 @@ function createNotification(title, msg){
 		iconUrl: "logo.png"
 	}
 
-	chrome.notifications.create("notificationName",opt,function(){});
+	chrome.notifications.create("notificationName", opt, function(){});
 	
 	//include this line if you want to clear the notification after 5 seconds
 	setTimeout(function(){chrome.notifications.clear("notificationName",function(){});},5000);
@@ -24,6 +28,24 @@ chrome.gcm.onMessage.addListener(function(message) {
 	// consists of key-value pairs.
 	//console.log(message);
 	if (message.data.msgId === MSG_IDS.GAME_START) {
+		createNotification(message.data.title, message.data.message);
+	} 
+
+	else if (message.data.msgId === MSG_IDS.BAGDE_UPDATE) {
+		chrome.browserAction.setBadgeText({text: message.data.text});
+		var color = message.data.color === "0"? [0,255,0,255] : [0,0,255,0];
+		chrome.browserAction.setBadgeBackgroundColor({color:color});
+	}
+
+	else if (message.data.msgId === MSG_IDS.CHAT) {
+		createNotification(message.data.author + " wrote: ", message.data.txt);
+	}
+
+	else if (message.data.msgId === MSG_IDS.NG) {
+		createNotification(message.data.author + ": ", message.data.txt);
+	}
+
+	else if (message.data.msgId === MSG_IDS.GAME_ABOUT_TO_START) {
 		createNotification(message.data.title, message.data.message);
 	}
 });
@@ -49,8 +71,8 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
      	} else if (msg.msgId === MSG_IDS.REGISTER_GCM_SUCCED) {
      		console.log("registration id sccessfully send.");
      		//console.log("// TODO: save to local storage");
-     		chrome.storage.local.set({registerGCM: true});
-     	}   
+     		chrome.storage.local.set({"registerGCM": true});
+     	} 
   });
 });
 
