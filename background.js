@@ -28,7 +28,8 @@ chrome.gcm.onMessage.addListener(function(message) {
 	// consists of key-value pairs.
 	//console.log(message);
 	if (message.data.msgId === MSG_IDS.GAME_START) {
-		createNotification(message.data.title, message.data.message);
+		//createNotification(message.data.title, message.data.message);
+		alert(message.data.title, message.data.message);
 	} 
 
 	else if (message.data.msgId === MSG_IDS.BAGDE_UPDATE) {
@@ -71,7 +72,7 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
      	} else if (msg.msgId === MSG_IDS.REGISTER_GCM_SUCCED) {
      		console.log("registration id sccessfully send.");
      		//console.log("// TODO: save to local storage");
-     		chrome.storage.local.set({"registerGCM": true});
+     		chrome.storage.local.set({"registerGCM4": true});
      	} 
   });
 });
